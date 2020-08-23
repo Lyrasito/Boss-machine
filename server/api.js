@@ -8,36 +8,15 @@ const {
   updateInstanceInDatabase,
   deleteFromDatabasebyId,
   deleteAllFromDatabase,
-  allMinions,
-  allIdeas,
-  allMeetings,
-  allWork,
 } = require("./db");
 
-//GET all minions
-apiRouter.get("/minions", (req, res) => {
-  const minions = getAllFromDatabase("minions");
-  res.send(minions);
-});
+const minRouter = require("./minions");
+apiRouter.use("/minions", minRouter);
 
-//POST new minion
-apiRouter.post("/minions", (req, res) => {
-  const thisMinion = req.query;
-  addToDatabase("minions", thisMinion);
-  res.send(thisMinion);
-});
-//GET single minion by id
-apiRouter.get("/minions/:minionId", (req, res) => {
-  const minion = getFromDatabaseById("minions", req.params.minionId);
-  res.send(minion);
-});
+const ideaRouter = require("./ideas");
+apiRouter.use("/ideas", ideaRouter);
 
-//PUT update single minion by id
-apiRouter.put("/minions/:minionId", (req, res) => {
-  const minion = getFromDatabaseById("minions", req.params.minionId);
-  const newMinion = updateInstanceInDatabase("minions", minion);
-  res.send(newMinion);
-});
-//DELETE single minion by id
+const meetingRouter = require("./meetings");
+apiRouter.use("/meetings", meetingRouter);
 
 module.exports = apiRouter;
